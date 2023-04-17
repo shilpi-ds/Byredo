@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
+import { slugify } from "../../config/globalConfig";
+
 function LocalesDropdown(props: any) {
   const [language, setLanguage] = useState("");
   const [section, setSection] = useState(0);
@@ -8,6 +10,85 @@ function LocalesDropdown(props: any) {
     setLanguage(e.target.value);
     props.updatelocale(e.target.value);
   };
+
+
+  const updatelocale = (locale: any) => {
+    if (props.template == "locatorSearch") {
+      let path: any = props.path.split("/");
+      path = path && path[1];
+      path = locale + "/" + path;
+      path = path;
+      return (window.location.pathname = path);
+    } else if (props.template == "continents") {
+
+      let path: any = "";
+      for (const key in props.alternateSlug) {
+        if (key == locale) {
+          let t = props.alternateSlug;
+
+          path = locale + "/" + t[key].slug + ".html";
+
+        }
+      }
+      return (window.location.pathname = path);
+    } 
+    else if (props.template == "location") {
+      let path: any = "";
+      for (const key in props.alternateSlug) {
+        if (key == locale) {
+          let t = props.alternateSlug;
+          if (t[key].slug) {
+            path = locale + "/" + t[key].slug + ".html";
+          } else {
+            let slug = t[key].id + " " + t[key].name;
+            slug = slugify(slug);
+            path = locale + "/" + slug;
+            path = path + ".html";
+          }
+        }
+      }
+
+      return (window.location.pathname = path);
+    } else if (props.template == "city") {
+
+
+
+      var path: any = "";
+      for (const key in props.alternateSlug) {
+        if (key == locale) {
+          let t: any = props.alternateSlug;
+
+
+
+          t[key].dm_directoryParents.map((i: any) => {
+            path = path + '/' + i.slug
+
+          })
+          path = locale + path + '/' + t[key].slug + ".html"
+        }
+
+      }
+
+
+      return (window.location.pathname = path);
+
+    }
+    else if (props.template == "country") {
+
+      let path: any;
+      for (const key in props.alternateSlug) {
+        if (key == locale) {
+          let t = props.alternateSlug;
+
+
+          path = locale + "/" + t[key].dm_directoryParents[0].slug + '/' + t[key].slug + ".html";
+
+        }
+      }
+
+      return (window.location.pathname = path);
+    }
+  }
 
   /**
    * For country and language dropdown

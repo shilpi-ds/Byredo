@@ -396,26 +396,30 @@ const Location: Template<ExternalApiRenderData> = ({
 
   const { i18n } = useTranslation();
   i18n.changeLanguage(document.meta.locale);
+
+
+
+  
  
-  const myArray = path.split("/");
-  if (slug) {
-    var currentUrl: any = "";
-    let slugString = slug;
-    slugString = slugify(slugString)+".html";
-    currentUrl = myArray && slugString;
+  // const myArray = path.split("/");
+  // if (slug) {
+  //   var currentUrl: any = "";
+  //   let slugString = slug;
+  //   slugString = slugify(slugString)+".html";
+  //   currentUrl = myArray && slugString;
     
-  }else
-  {
-    //let currentUrl = "";
-    var currentUrl: any = "";
-    let slugString = id + "-" + name;
-    slugString = slugify(slugString)+".html";
-    currentUrl = myArray && slugString;
-  }
-  console.log(currentUrl,"currentUrl");
-  const updatelocale = (locale: any) => {
-    return (window.location.pathname = `${locale}/${currentUrl}`);
-  };
+  // }else
+  // {
+  //   //let currentUrl = "";
+  //   var currentUrl: any = "";
+  //   let slugString = id + "-" + name;
+  //   slugString = slugify(slugString)+".html";
+  //   currentUrl = myArray && slugString;
+  // }
+  // console.log(currentUrl,"currentUrl");
+  // const updatelocale = (locale: any) => {
+  //   return (window.location.pathname = `${locale}/${currentUrl}`);
+  // };
   return (
     <>
       <JsonLd<Location>
@@ -535,7 +539,8 @@ const Location: Template<ExternalApiRenderData> = ({
             footerStoreLocator={_site.c_footerStoreLocator}
             customerCare={_site.c_customerCare}
             phone={_site.mainPhone}
-            emailAddress={_site.c_emailAddress} path={updatelocale}
+            emailAddress={_site.c_emailAddress}
+             path={path}
             _site={_site}
             meta={__meta}
           />
