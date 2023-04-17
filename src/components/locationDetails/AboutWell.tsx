@@ -79,7 +79,7 @@ const About = (props: AboutSection) => {
                 <div className="space-x-5">
                   {storeDescriptionCTA?.link && storeDescriptionCTA?.label ? (
 
-                    <div>gf<Linking props={storeDescriptionCTA}/></div>
+                    <div><Linking props={storeDescriptionCTA}/></div>
 
                   ) : <></>}
                 </div>

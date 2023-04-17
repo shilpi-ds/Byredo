@@ -396,15 +396,19 @@ const Location: Template<ExternalApiRenderData> = ({
 
   const { i18n } = useTranslation();
   i18n.changeLanguage(document.meta.locale);
-  let currentUrl = ""
+ 
   const myArray = path.split("/");
-  if (!slug) {
-    let slugString = id + "-" + name;
+  if (slug) {
+    var currentUrl: any = "";
+    let slugString = slug;
     slugString = slugify(slugString)+".html";
     currentUrl = myArray && slugString;
+    
   }else
   {
-    let slugString = slug;
+    //let currentUrl = "";
+    var currentUrl: any = "";
+    let slugString = id + "-" + name;
     slugString = slugify(slugString)+".html";
     currentUrl = myArray && slugString;
   }
