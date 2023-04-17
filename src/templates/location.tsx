@@ -359,7 +359,7 @@ const Location: Template<ExternalApiRenderData> = ({
     dm_directoryParents
   } = document;
   const templateData = { document: document, __meta: __meta };
-  console.log(c_categoriesProducts,"c_categoriesProducts");
+  
   const hoursSchema = [];
   for (const key in hours) {
     if (hours.hasOwnProperty(key)) {
@@ -408,6 +408,7 @@ const Location: Template<ExternalApiRenderData> = ({
     slugString = slugify(slugString)+".html";
     currentUrl = myArray && slugString;
   }
+  console.log(currentUrl,"currentUrl");
   const updatelocale = (locale: any) => {
     return (window.location.pathname = `${locale}/${currentUrl}`);
   };
