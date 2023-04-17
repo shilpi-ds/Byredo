@@ -1,0 +1,163 @@
+import * as React from "react";
+import {
+    BaseUrl,
+} from "../../config/globalConfig";
+import { Link } from "@yext/pages/components";
+import { useTranslation } from "react-i18next";
+//import Skeleton from "react-loading-skeleton";
+//import "react-loading-skeleton/dist/skeleton.css";
+import { useEffect } from "react";
+//import { Swiper, SwiperSlide } from "swiper/react";
+//import "swiper/css";
+
+type data = {
+  name: any;
+  parents: any;
+  address: any;
+  locale: any;
+  mainparent: any;
+
+};
+
+const BreadCrumbs = (props: data) => {
+  const [list, setList] = React.useState(null);
+
+  var breadcrumbs;
+  var data: any = [];
+  React.useEffect(() => {
+    setURL(props);
+  }, [setList]);
+  const regionNames = new Intl.DisplayNames(
+    [props.locale ? props.locale : "en"],
+    { type: "region" }
+  );
+  const [timeout, setTimeout] = React.useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeout(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const setURL = (res: any) => {
+    // for (let i = 0; i < res.mainparent.length; i++) {
+    //   data.push({
+    //     name: `${t("Store Finder")}`,
+    //     slug: "index",
+    //   });
+    // }
+    console.log(res.mainparent.length,"ressssssss");
+    if (res.mainparent) {
+      for (let i = 0; i < res.mainparent.length; i++) {
+        console.log(res.mainparent,"ressssssss");
+        data.push({
+          name: res.mainparent[i].name,
+          slug: res.mainparent[i].slug,
+        });
+      }
+    }
+    if (res.parents) {
+      for (let i = 0; i < res.parents.length; i++) {
+        console.log(res.parents[i].meta.entityType.id,"idddd");
+        if (res.parents[i].meta.entityType.id == "ce_root") {
+          res.parents[i].name = res.parents[i].name;
+          res.parents[i].slug = res.parents[i].slug;
+        } else if (res.parents[i].meta.entityType.id == "ce_country") {
+          try {
+            res.parents[i].name = regionNames.of(res.parents[i].name);
+          } catch (error) {
+            res.parents[i].name = res.parents[i].name;
+          }
+          res.parents[i].slug =
+            res.parents[i - 1].slug + "/" + res.parents[i].slug;
+
+          data.push({
+            name: res.parents[i].name,
+            slug: res.parents[i].slug,
+          });
+        } else if (res.parents[i].meta.entityType.id == "ce_city") {
+          res.parents[i].name = res.parents[i].name;
+          res.parents[i].slug =
+            res.parents[i - 1].slug + "/" + res.parents[i].slug;
+          data.push({
+            name: res.parents[i].name,
+            slug: res.parents[i].slug,
+          });
+        }
+      }
+
+      breadcrumbs = data.map((crumb: any, index: any) => (
+
+      
+          <li key={crumb.slug}>
+            <Link
+              href={
+                 BaseUrl + "/"+props.locale+"/" + crumb.slug + ".html"
+              }
+              rel="noopener noreferrer"
+              eventName={"BreadCrumbs" + (index + 1)}
+              style={{ color: "#3a356e" }}
+            >
+              {crumb.name}
+            </Link>
+          </li>
+    
+      ));
+
+      setList(breadcrumbs);
+    } else {
+      setList(null);
+    }
+  };
+
+  const { t } = useTranslation();
+
+  return (
+    <>
+  
+          <div
+            className="breadcrumb"
+            style={{ backgroundColor: "whitesmoke", marginTop: "10px" }}
+          >
+            <div className="container-full-width">
+              <ul>
+               
+              
+                    <li>
+                      <a href="">{t("Home")}</a>
+                    </li>
+                  
+                  {list ? (
+                    list
+                  ) : (
+                    <>
+                      {props.address && props.address.city ? (
+                        <li>
+                          {" "}
+                          <a
+                            href={props.address.city + ".html"}
+                            style={{ color: "#3a356e" }}
+                          >
+                            {props.address.city ? props.address.city : ""}
+                          </a>
+                        </li>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  )}
+                  
+                    <li style={{ color: "#3a356e" }}>{props && props.name}</li>
+                 
+                
+              </ul>
+            </div>
+          </div>
+      
+     
+    </>
+  );
+};
+
+export default BreadCrumbs;
