@@ -399,21 +399,21 @@ const Location: Template<ExternalApiRenderData> = ({
   
   
   const updatelocale = (locale: any) => {
-    let currentUrl = ""
-  const myArray = path.split("/");
-  if (slug) {
-    let slugString = slug;
-    slugString = slugify(slugString)+".html";
-    currentUrl = myArray && slugString;
-    
-  }else
-  {
-    let slugString = id + "-" + name;
-    slugString = slugify(slugString)+".html";
-    currentUrl = myArray && slugString;
-  }
-  console.log(currentUrl,"currentUrl");
-    return (window.location.pathname = `${locale}/${currentUrl}`);
+    let path: any = "";
+      
+       
+       
+          if (slug) {
+            path = locale + "/" + slug + ".html";
+          } else {
+            let slug = id + "-" + name;
+            slug = slugify(slug);
+            path = locale + "/" + slug;
+            path = path + ".html";
+          }
+      
+
+      return (window.location.pathname = path);
   };
   return (
     <>
