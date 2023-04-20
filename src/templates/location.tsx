@@ -359,7 +359,7 @@ const Location: Template<ExternalApiRenderData> = ({
     dm_directoryParents
   } = document;
   const templateData = { document: document, __meta: __meta };
-  
+ 
   const hoursSchema = [];
   for (const key in hours) {
     if (hours.hasOwnProperty(key)) {
@@ -396,24 +396,21 @@ const Location: Template<ExternalApiRenderData> = ({
 
   const { i18n } = useTranslation();
   i18n.changeLanguage(document.meta.locale);
-  
-  
+  let currentUrl = ""
+  const myArray = path.split("/");
+  currentUrl = myArray && myArray[1];
+  // if (!document.slug) {
+  //   let slugString = document.id + "-" + document.name;
+  //   slugString = slugify(slugString)+".html";
+  //   currentUrl = myArray && slugString;
+  // }else
+  // {
+  //   let slugString = document.slug;
+  //   slugString = slugify(slugString)+".html";
+  //   currentUrl = myArray && slugString;
+  // }
   const updatelocale = (locale: any) => {
-    let path: any = "";
-      
-       
-       
-          if (slug) {
-            path = locale + "/" + slug + ".html";
-          } else {
-            let slug = id + "-" + name;
-            slug = slugify(slug);
-            path = locale + "/" + slug;
-            path = path + ".html";
-          }
-      
-
-      return (window.location.pathname = path);
+    return (window.location.pathname = `${locale}/${currentUrl}`);
   };
   return (
     <>

@@ -31,26 +31,19 @@ const BreadCrumbs = (props: data) => {
     [props.locale ? props.locale : "en"],
     { type: "region" }
   );
-  const [timeout, setTimeout] = React.useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeout(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const setURL = (res: any) => {
-    // for (let i = 0; i < res.mainparent.length; i++) {
-    //   data.push({
-    //     name: `${t("Store Finder")}`,
-    //     slug: "index",
-    //   });
-    // }
-    console.log(res.mainparent.length,"ressssssss");
+    for (let i = 0; i < res.mainparent.length; i++) {
+      data.push({
+        name: `${t("Store Finder")}`,
+        slug: "index",
+      });
+    }
+  
     if (res.mainparent) {
       for (let i = 0; i < res.mainparent.length; i++) {
-        console.log(res.mainparent,"ressssssss");
+        
         data.push({
           name: res.mainparent[i].name,
           slug: res.mainparent[i].slug,
@@ -59,7 +52,7 @@ const BreadCrumbs = (props: data) => {
     }
     if (res.parents) {
       for (let i = 0; i < res.parents.length; i++) {
-        console.log(res.parents[i].meta.entityType.id,"idddd");
+     
         if (res.parents[i].meta.entityType.id == "ce_root") {
           res.parents[i].name = res.parents[i].name;
           res.parents[i].slug = res.parents[i].slug;
@@ -125,7 +118,7 @@ const BreadCrumbs = (props: data) => {
                
               
                     <li>
-                      <a href="">{t("Home")}</a>
+                      <a href="#">{t("Home")}</a>
                     </li>
                   
                   {list ? (
