@@ -273,13 +273,7 @@ const City: Template<TemplateRenderProps> = ({ path, document, __meta }) => {
     let result: any = string?.replace(/\s+/g, "-");
     if (!entity.slug) {
       url =
-        "/" +
-        country +
-        "/" +
-        finalregion +
-        "/" +
-        finalcity +
-        "/" +
+      document.meta.locale + "/" +
         entity.id +
         "-" +
         result +
