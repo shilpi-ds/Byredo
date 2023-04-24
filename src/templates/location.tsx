@@ -337,7 +337,6 @@ const Location: Template<ExternalApiRenderData> = ({
     address,
     hours,
     slug,
-    locale,
     mainPhone,
     __meta,
     additionalHoursText,
@@ -400,33 +399,23 @@ const Location: Template<ExternalApiRenderData> = ({
 console.log(c_specificDay,"daaaaaaaa")
   const { i18n } = useTranslation();
   i18n.changeLanguage(document.meta.locale);
-  let currentUrl = ""
-  const myArray = path.split("/");
- // console.log(alternateLanguageFields.locale.name,"hhhhhh");
- // currentUrl = myArray && myArray[1];
-  // if (!alternateLanguageFields.slug) {
-  //   let slugString = alternateLanguageFields.id + "-" + alternateLanguageFields.name;
-  //   slugString = slugify(slugString)+".html";
-  //   currentUrl = myArray && slugString;
-  // }else
-  // {
-  //   let slugString = alternateLanguageFields.slug;
-  //   slugString = slugify(slugString)+".html";
-  //   currentUrl = myArray && slugString;
-  // }
-  // console.log(currentUrl,"current");
+
   const updatelocale = (locale: any) => {
-    if (!alternateLanguageFields.locale.slug) {
-      let slugString = alternateLanguageFields.locale.id + "-" + alternateLanguageFields.locale.name;
-      slugString = slugify(slugString)+".html";
-      currentUrl = myArray && slugString;
-    }else
-    {
-      let slugString = alternateLanguageFields.locale.slug;
-      slugString = slugify(slugString)+".html";
-      currentUrl = myArray && slugString;
-    }
-    return (window.location.pathname = `${locale}/${currentUrl}`);
+    let path: any = "";
+      for (const key in alternateLanguageFields) {
+        if (key == locale) {
+          let t = alternateLanguageFields;
+          if (t[key].slug) {
+            path = locale + "/" + t[key].slug + ".html";
+          } else {
+            let slug = t[key].id + " " + t[key].name;
+            slug = slugify(slug);
+            path = locale + "/" + slug;
+            path = path + ".html";
+          }
+        }
+      }
+    return (window.location.pathname = path);
   };
   return (
     <>
