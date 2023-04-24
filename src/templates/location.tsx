@@ -100,7 +100,7 @@ export const config: TemplateConfig = {
        "c_productCatagories",
        "c_storeType",
        "c_storeTypesTitle",
-
+"c_specificDay",
        /*Directory Manager*/
       "dm_directoryParents.name",
       "dm_directoryParents.slug",
@@ -125,10 +125,11 @@ export const config: TemplateConfig = {
 
     // The entity language profiles that documents will be generated for.
     localization: {
-      locales: ["fr-FR", "en_GB", "it-IT", "ja-JP", "de-DE"],
+      locales: ["fr-FR", "en_GB", "it-IT", "de-DE"],
       primary: false,
     },
   },
+  alternateLanguageFields: ["slug", "name", "id"],
 };
 
 /**
@@ -331,16 +332,18 @@ const Location: Template<ExternalApiRenderData> = ({
   const {
     _site,
     name,
+    alternateLanguageFields,
     id,
     address,
     hours,
     slug,
+    locale,
     mainPhone,
     __meta,
     additionalHoursText,
     yextDisplayCoordinate,
     timezone,
-    
+   
     c_promotionalProducts,
     c_title,
     description,
@@ -356,7 +359,8 @@ const Location: Template<ExternalApiRenderData> = ({
     c_byredoServices,
     c_productCatagoriesTitle,
     c_productCatagories,
-    dm_directoryParents
+    dm_directoryParents,
+    c_specificDay
   } = document;
   const templateData = { document: document, __meta: __meta };
  
@@ -393,23 +397,35 @@ const Location: Template<ExternalApiRenderData> = ({
       hoursSchema.push(openIntervalsSchema);
     }
   }
-
+console.log(c_specificDay,"daaaaaaaa")
   const { i18n } = useTranslation();
   i18n.changeLanguage(document.meta.locale);
   let currentUrl = ""
   const myArray = path.split("/");
-  currentUrl = myArray && myArray[1];
-  // if (!document.slug) {
-  //   let slugString = document.id + "-" + document.name;
+ // console.log(alternateLanguageFields.locale.name,"hhhhhh");
+ // currentUrl = myArray && myArray[1];
+  // if (!alternateLanguageFields.slug) {
+  //   let slugString = alternateLanguageFields.id + "-" + alternateLanguageFields.name;
   //   slugString = slugify(slugString)+".html";
   //   currentUrl = myArray && slugString;
   // }else
   // {
-  //   let slugString = document.slug;
+  //   let slugString = alternateLanguageFields.slug;
   //   slugString = slugify(slugString)+".html";
   //   currentUrl = myArray && slugString;
   // }
+  // console.log(currentUrl,"current");
   const updatelocale = (locale: any) => {
+    if (!alternateLanguageFields.locale.slug) {
+      let slugString = alternateLanguageFields.locale.id + "-" + alternateLanguageFields.locale.name;
+      slugString = slugify(slugString)+".html";
+      currentUrl = myArray && slugString;
+    }else
+    {
+      let slugString = alternateLanguageFields.locale.slug;
+      slugString = slugify(slugString)+".html";
+      currentUrl = myArray && slugString;
+    }
     return (window.location.pathname = `${locale}/${currentUrl}`);
   };
   return (
@@ -473,6 +489,7 @@ const Location: Template<ExternalApiRenderData> = ({
             phone={mainPhone}
             timezone={timezone}
             hours={hours}
+            c_specificDay={c_specificDay}
             additionalHoursText={additionalHoursText}
             site={_site}
             name={name}

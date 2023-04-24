@@ -10,6 +10,7 @@ type Hours = {
   timezone?: any;
   reopenDate?: any;
   site: any;
+  c_specificDay?: any
 };
 
 interface Week extends Record<string, any> {
@@ -102,7 +103,7 @@ function sortByDay(week: Week): Week {
  * @param week
  * @returns html elememt (day)
  */
-const renderHours = (week: Week, site: any) => {
+const renderHours = (week: Week, site: any,c_specificDay: any) => {
 
   const dayDom: JSX.Element[] = [];
   let i = 0;
@@ -142,6 +143,7 @@ const renderHours = (week: Week, site: any) => {
         isToday={isDayToday(k)}
         holidayhours={week.holidayHours}
         site={site}
+        c_specificDay={c_specificDay}
 
       />
     );
@@ -175,7 +177,7 @@ type DayRow = {
   dayDate: any;
   holidayhours: any;
   site: any
-
+  c_specificDay: any;
 };
 
 /**
@@ -185,9 +187,9 @@ type DayRow = {
  */
 
 const DayRow = (props: DayRow) => {
-  const { dayName, day, isToday, dayDate, holidayhours } = props;
+  const { dayName, day, isToday, dayDate, holidayhours,c_specificDay } = props;
   const [myDataAccordintToMe, setMyDataAccordintToMe] = React.useState<any>({});
-  let a, s, holidayDate: any;
+  let a: ({ day: string; month?: undefined; year?: undefined; } | { month: string; day?: undefined; year?: undefined; } | { year: string; day?: undefined; month?: undefined; })[], s, holidayDate: any;
   function join(t: any, a: any, s: any) {
     function format(m: any) {
       const f = new Intl.DateTimeFormat("en", m);
@@ -238,13 +240,34 @@ const DayRow = (props: DayRow) => {
     }
   }
   const { t } = useTranslation();
+  let ddate: any
   return (
     <tr className={isToday ? "currentDay" : ""}>
       {Status ? (
         <td className="capitalize text-left pl-1 pr-4 dayName">
           <span>
             <b className="checked"></b>
-            {t(dayName)} <b className="block text-sm font-normal">(Holiday)</b>
+            {t(dayName)} 
+            {/* <b className="block text-sm font-normal">(Holiday)</b> */}
+            {c_specificDay &&
+            c_specificDay.map((res: any) => {
+              if (join(new Date(res.holidayDate), a, " ") == dayDate) {
+                ddate = dayDate
+                return (
+                  <span className="specificday">
+                    {res.holidayName ? res.holidayName  :
+                      <div className="join_date">{t('Holiday')}
+                        {/* {join(new Date(dayDate), a, '-')} */}
+                        </div>
+                    }
+                  </span>
+                )
+              }
+            })
+          }
+          {ddate == dayDate ? <></> :
+            <div className="join_date">{t('Holiday')}</div>
+          }
           </span>
         </td>
       ) : (
@@ -331,6 +354,7 @@ const DayRow = (props: DayRow) => {
  * @returns html elements (holiday hours with popup and opening hours)
  */
 const Hours = (props: Hours) => {
+  const { c_specificDay } = props;
   const [dateTime, setDateTime] = useState("");
   useEffect(() => {
     const id = setInterval(() => setDateTime(`${date} ${month} ${year}`), 30);
@@ -365,7 +389,7 @@ const Hours = (props: Hours) => {
             </tr>
           </tbody>
         ) : (
-          <>{renderHours(hours, props?.site)}</>
+          <>{renderHours(hours, props?.site,c_specificDay)}</>
         )}
       </table>
     </div>

@@ -25,6 +25,7 @@ const Holidayhour = (props: any) => {
   });
   return (
     <>
+    
       {array.map((res: any) => {
         const weeks = [
           "Sunday",
@@ -35,6 +36,14 @@ const Holidayhour = (props: any) => {
           "Friday",
           "Saturday",
         ];
+        const a = [{ day: '2-digit' }, { month: 'numeric' }, { year: 'numeric' }];
+        function join(t: any, a: any, s: any) {
+          function format(m: any) {
+            const f = new Intl.DateTimeFormat('en', m);
+            return f.format(t);
+          }
+          return a.map(format).join(s);
+        }
         const d = new Date(res.date);
         const day = d.getDay();
         let date: any = d.getDate();
@@ -46,12 +55,32 @@ const Holidayhour = (props: any) => {
           month = "0" + month;
         }
         const year = d.getFullYear();
-
+        let ddate: any
         return (
           <>
             <div className="pop-up-holyhrs">
               <div>{`${date}/${month}/${year}`}</div>
               <div>{weeks[day]}</div>
+              <div>
+                {props?.c_specificDay && props.c_specificDay?.map((specificDay: any) => {
+
+
+                  if (specificDay?.holidayDate == res.date) {
+                    ddate = res.date
+
+                    return (
+                      <span className="specificday">
+                        {specificDay?.holidayName ? specificDay.holidayName : <div>{join(new Date(res.date), a, '-')}</div>
+                        }
+                      </span>
+                    )
+                  }
+                }
+                )}
+                {ddate == res?.date ? <></> :
+                  <div>{join(new Date(res.date), a, '-')}</div>
+                }
+              </div>
               {!res.isClosed && (
                 <div className="">
                   {res.openIntervals?.map(

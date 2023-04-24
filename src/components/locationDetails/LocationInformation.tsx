@@ -21,6 +21,7 @@ type props = {
   additionalHoursText: string;
   site: any;
   name: string;
+  c_specificDay:any;
 
 };
 const LocationInformation = (data: props) => {
@@ -142,6 +143,7 @@ const LocationInformation = (data: props) => {
                             timezone={timezone ? timezone : defaultTimeZone}
                             site={data?.site}
                             additionalHoursText={data.additionalHoursText}
+                            c_specificDay={data.c_specificDay}
                           />
                           {data?.prop?.holidayHours &&
                             isShow &&
@@ -189,9 +191,10 @@ const LocationInformation = (data: props) => {
                             <div className="pop-up-holyhrs heading">
                               <div>{data.site.c_date}</div>
                               <div>{data.site.c_day}</div>
+                              <div>Specific Day</div>
                               <div>{data.site.c_openingHours}</div>
                             </div>
-                            <Holidayhour hours={data.hours.holidayHours} />
+                            <Holidayhour hours={data.hours.holidayHours} c_specificDay={data.c_specificDay}/>
                           </Modal>
                         </div>
                       </div>
