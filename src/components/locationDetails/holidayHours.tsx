@@ -78,7 +78,7 @@ const Holidayhour = (props: any) => {
                 }
                 )}
                 {ddate == res?.date ? <></> :
-                  <div>{join(new Date(res.date), a, '-')}</div>
+                  <div>Holiday</div>
                 }
               </div>
               {!res.isClosed && (
