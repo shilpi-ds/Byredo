@@ -29,7 +29,7 @@ function LocalesDropdown(props: any) {
           {props.country?.map((e: any, ind: any) => {
            
             return (
-              <option value={ind}>
+              <option value={e.languageCode}>
                 {e.language}
               </option>
             );
