@@ -31,7 +31,7 @@ const Footer = (props: any) => {
               <div className="footer-link-column">
                 <LocalesDropdown
                   updatelocale={path}
-                  country={_site.c_countryFooter}
+                  country={_site.c_language}
                   site={_site}
                 />
                 <Accordian

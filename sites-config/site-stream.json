@@ -60,7 +60,8 @@
     "c_closed",
     "c_allAddressCTA",
     "c_relatedContinent.name",
-    "c_relatedContinent.slug"
+    "c_relatedContinent.slug",
+    "c_language"
   ],
   "localization": {
     "locales": ["en_GB", "fr-FR", "it-IT", "ja-JP", "de-DE"],
