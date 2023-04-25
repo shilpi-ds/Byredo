@@ -8,7 +8,7 @@ function LocalesDropdown(props: any) {
   //const [section, setSection] = useState(0);
   const onLanguageChange = (e: any) => {
     setLanguage(e.target.value);
-    props.updatelocale(e.target.value);
+   // props.updatelocale(e.target.value);
   };
  
   /**
@@ -23,7 +23,8 @@ function LocalesDropdown(props: any) {
        
           if (res.languageCode === props.site.meta.locale) {
             setLanguage(res.languageCode);
-            return (res.index = index);
+            //alert(res.languageCode);
+            //return (res.index = index);
           }
     
     });
@@ -39,7 +40,8 @@ function LocalesDropdown(props: any) {
           {props.country?.map((e: any, ind: any) => {
            
             return (
-              <option value={e.languageCode}  key={ind}>
+              <option value={e.languageCode}  key={ind}
+              selected={props.site.meta.locale === language}>
                 {e.language}
               </option>
             );
