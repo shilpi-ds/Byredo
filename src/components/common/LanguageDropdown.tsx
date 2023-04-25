@@ -17,7 +17,17 @@ function LocalesDropdown(props: any) {
    * returns the HTML element of Countries and Languages in dropdown format
    */
 
-  
+  useEffect(() => {
+    const result = props.country?.filter((res: any, index: number) => {
+    
+       
+          if (res.languageCode === props.site.meta.locale) {
+            setLanguage(res.languageCode);
+            return (res.index = index);
+          }
+    
+    });
+  }, []);
 
   return (
     <div className="languagedropdown">
@@ -29,7 +39,7 @@ function LocalesDropdown(props: any) {
           {props.country?.map((e: any, ind: any) => {
            
             return (
-              <option value={e.languageCode}>
+              <option value={e.languageCode}  key={ind}>
                 {e.language}
               </option>
             );
