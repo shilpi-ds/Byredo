@@ -8,7 +8,7 @@ function LocalesDropdown(props: any) {
   //const [section, setSection] = useState(0);
   const onLanguageChange = (e: any) => {
     setLanguage(e.target.value);
-   // props.updatelocale(e.target.value);
+    props.updatelocale(e.target.value);
   };
  
   /**
